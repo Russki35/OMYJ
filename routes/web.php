@@ -1,38 +1,70 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+//use App\Task;
 
-Route::get('/', function () {
+Route::get('/tasks', 'TasksController@index');
 
-	$tasks = DB::table('tasks')->latest()->get();
+Route::get('/tasks/{task}', 'TasksController@show');
+
+
+//Route::get('/tasks', function () {
+
+	//Using query
+	//-----------------------------------------------
+	//**$tasks = DB::table('tasks')->latest()->get();
+	//-----------------------------------------------
+
 	//Entre ('tasks')-> et get(), on peut passer une fonction. Exemple : ('tasks')->latest()->get(); pour trier dans un ordre particulier
 
+	// Using Eloquent
+	//----------------------------------------
+	//** $tasks = Task::all();
+	//----------------------------------------
 
 
-    return view('welcome', compact('tasks'));
+	//Now all tasks will load this field (index)
+	//----------------------------------------
+    //** return view('tasks.index', compact('tasks'));
+	//----------------------------------------
 
-});
+//});
 
-//Trouver une tâche en particulier dans la table tasks
+//1)If the user wants to visit a specific task, we fecth it by id
 
-Route::get('/tasks/{id}', function ($id) {
-// Ici on passe des paramètres pour afficher par id
+	//Route::get('/tasks/{task}', function ($id) {
 
-	dd($id);
+	//2) Find the task that has that id
+	//----------------------------------------
+	//**$task = DB::table('tasks')->find($id);
+	//----------------------------------------
 
-	$tasks = DB::table('tasks')->latest()->get();
+	//--------------------------
+	//**$task = Task::find($id);
+	//--------------------------
+
+	//Load the view through the variable(In this case, we put {{tasks->body}} in show.blade.php)
+	//---------------------------------------------
+    //**return view('tasks.show', compact('task'));
+	//---------------------------------------------
+
+//});
+ 
+Route::get('/', 'PostsController@index');
+
+Route::get('/posts/create', 'PostsController@create');
+
+//Video 11 Gestion formulaire
+Route::post('/posts', 'PostsController@store');
+
+Route::get('/posts/{post}', 'PostsController@show');
 
 
 
-    return view('welcome', compact('tasks'));
 
-});
+
+// Controller => PostsController
+
+// Eloquent model => Post
+
+// Migration => create_posts_table
+
